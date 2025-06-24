@@ -1,23 +1,37 @@
-import { FC, useMemo } from 'react';
+import { FC, useEffect, useMemo } from 'react';
+import { useParams } from 'react-router-dom';
+import { useAppDispatch, useAppSelector } from '../../services/hooks';
 import { Preloader } from '../ui/preloader';
 import { OrderInfoUI } from '../ui/order-info';
 import { TIngredient } from '@utils-types';
+import { selectOrdersData } from '../../services/slices/ordersDataSlice';
+import {
+  fetchOrderByNumber,
+  orderDetails,
+  clearOrderDetails
+} from '../../services/slices/orderDetailsSlice';
+import { ingredientsList } from '../../services/slices/ingredientsSlice';
 
 export const OrderInfo: FC = () => {
-  /** TODO: взять переменные orderData и ingredients из стора */
-  const orderData = {
-    createdAt: '',
-    ingredients: [],
-    _id: '',
-    status: '',
-    name: '',
-    updatedAt: 'string',
-    number: 0
-  };
+  const { number } = useParams<{ number: string }>();
+  const orderNumber = Number(number);
 
-  const ingredients: TIngredient[] = [];
+  const dispatch = useAppDispatch();
+  const orders = useAppSelector(selectOrdersData);
+  const orderFromOrders = orders.find((order) => order.number === orderNumber);
 
-  /* Готовим данные для отображения */
+  const orderFromDetails = useAppSelector(orderDetails);
+  const ingredients = useAppSelector(ingredientsList);
+
+  const orderData = orderFromOrders || orderFromDetails;
+
+  useEffect(() => {
+    if (!orderFromOrders && orderNumber) {
+      dispatch(clearOrderDetails());
+      dispatch(fetchOrderByNumber(orderNumber));
+    }
+  }, [dispatch, orderNumber, orderFromOrders]);
+
   const orderInfo = useMemo(() => {
     if (!orderData || !ingredients.length) return null;
 
