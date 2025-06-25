@@ -24,60 +24,25 @@ const initialState: AuthState = {
   isAuthChecked: false
 };
 
-export const login = createAsyncThunk(
-  'auth/login',
-  async (data: TLoginData, { rejectWithValue }) => {
-    try {
-      return await loginUserApi(data);
-    } catch (error) {
-      return rejectWithValue(error);
-    }
-  }
+export const login = createAsyncThunk('auth/login', async (data: TLoginData) =>
+  loginUserApi(data)
 );
 
 export const register = createAsyncThunk(
   'auth/register',
-  async (data: TRegisterData, { rejectWithValue }) => {
-    try {
-      return await registerUserApi(data);
-    } catch (error) {
-      return rejectWithValue(error);
-    }
-  }
+  async (data: TRegisterData) => registerUserApi(data)
 );
 
-export const fetchUser = createAsyncThunk(
-  'auth/fetchUser',
-  async (_, { rejectWithValue }) => {
-    try {
-      return await getUserApi();
-    } catch (error) {
-      return rejectWithValue(error);
-    }
-  }
+export const fetchUser = createAsyncThunk('auth/fetchUser', async () =>
+  getUserApi()
 );
 
 export const updateUser = createAsyncThunk(
   'auth/updateUser',
-  async (user: Partial<TRegisterData>, { rejectWithValue }) => {
-    try {
-      return await updateUserApi(user);
-    } catch (error) {
-      return rejectWithValue(error);
-    }
-  }
+  async (user: Partial<TRegisterData>) => updateUserApi(user)
 );
 
-export const logout = createAsyncThunk(
-  'auth/logout',
-  async (_, { rejectWithValue }) => {
-    try {
-      return await logoutApi();
-    } catch (error) {
-      return rejectWithValue(error);
-    }
-  }
-);
+export const logout = createAsyncThunk('auth/logout', async () => logoutApi());
 
 const authSlice = createSlice({
   name: 'auth',
