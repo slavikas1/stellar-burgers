@@ -19,7 +19,10 @@ export const OrderCardUI: FC<OrderCardUIProps> = memo(
       className={`p-6 mb-4 mr-2 ${styles.order}`}
     >
       <div className={styles.order_info}>
-        <span className={`text text_type_digits-default ${styles.number}`}>
+        <span
+          className={`text text_type_digits-default ${styles.number}`}
+          data-cy='order-number'
+        >
           #{String(orderInfo.number).padStart(6, '0')}
         </span>
         <span className='text text_type_main-default text_color_inactive'>
