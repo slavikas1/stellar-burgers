@@ -1,4 +1,8 @@
 /// <reference types="cypress" />
+const ingredientCard = '[data-cy="ingredient-card"]';
+const constructorIngredient = '[data-cy="constructor-ingredient"]';
+const modalClose = '[data-cy="modal-close"]';
+const modal = '[data-cy="modal"]';
 beforeEach(() => {
   cy.fixture('ingredients.json').then((mockIngredients) => {
     cy.intercept('GET', '/api/ingredients', {
@@ -27,38 +31,38 @@ afterEach(() => {
 });
 describe('Добавление ингредиента в конструктор', () => {
   it('Добавление ингредиента', () => {
-    cy.get('[data-cy="ingredient-card"]').first().as('firstIngredient');
+    cy.get(ingredientCard).first().as('firstIngredient');
 
     cy.get('@firstIngredient').find('button').click();
 
-    cy.get('[data-cy="constructor-ingredient"]').should('exist');
+    cy.get(constructorIngredient).should('exist');
   });
 });
 describe('Октрытие и закрытие модального окна', () => {
   it('Открытие модального окна ингредиента', () => {
-    cy.get('[data-cy="ingredient-card"]').first().click();
-    cy.get('[data-cy="modal"]').should('be.visible');
+    cy.get(ingredientCard).first().click();
+    cy.get(modal).should('be.visible');
   });
   it('Закрытие модального окна ингредиента через кнопку', () => {
-    cy.get('[data-cy="ingredient-card"]').first().click();
-    cy.get('[data-cy="modal-close"]').click();
-    cy.get('[data-cy="modal"]').should('not.exist');
+    cy.get(ingredientCard).first().click();
+    cy.get(modalClose).click();
+    cy.get(modal).should('not.exist');
   });
   it('Закрытие модального окна ингредиента через оверлей', () => {
-    cy.get('[data-cy="ingredient-card"]').first().click();
+    cy.get(ingredientCard).first().click();
     cy.get('[data-cy="modal-overlay"]').click({ force: true });
-    cy.get('[data-cy="modal"]').should('not.exist');
+    cy.get(modal).should('not.exist');
   });
 });
 describe('Оформление заказа', () => {
   it('Оформление заказа', () => {
-    cy.get('[data-cy="ingredient-card"]')
+    cy.get(ingredientCard)
       .filter(':contains("булка")')
       .first()
       .find('button')
       .click();
 
-    cy.get('[data-cy="ingredient-card"]')
+    cy.get(ingredientCard)
       .filter(':contains("Биокотлета")')
       .first()
       .find('button')
@@ -68,13 +72,13 @@ describe('Оформление заказа', () => {
 
     cy.wait('@createOrder');
 
-    cy.get('[data-cy="modal"]').should('be.visible');
-    cy.get('[data-cy="modal"]').should('contain.text', '123456');
+    cy.get(modal).should('be.visible');
+    cy.get(modal).should('contain.text', '123456');
 
-    cy.get('[data-cy="modal-close"]').click();
-    cy.get('[data-cy="modal"]').should('not.exist');
+    cy.get(modalClose).click();
+    cy.get(modal).should('not.exist');
 
-    cy.get('[data-cy="constructor-ingredient"]').should(
+    cy.get(constructorIngredient).should(
       'not.contain',
       'Биокотлета'
     );

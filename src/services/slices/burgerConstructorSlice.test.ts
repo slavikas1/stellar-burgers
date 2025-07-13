@@ -1,12 +1,7 @@
-import { burgerConstructorSlice } from './burgerConstructorSlice';
+import { burgerConstructorSlice, initialState } from './burgerConstructorSlice';
 import { TIngredient, TConstructorIngredient } from '../../utils/types';
 
 describe('burgerConstructorSlice', () => {
-  const initialState = {
-    bun: null,
-    ingredients: []
-  };
-
   const testBun: TIngredient = {
     _id: '1',
     name: 'Test Bun',
@@ -58,7 +53,7 @@ describe('burgerConstructorSlice', () => {
       initialState,
       burgerConstructorSlice.actions.addIngredient(testIngredient)
     );
-    
+
     const actual = burgerConstructorSlice.reducer(
       stateWithIngredient,
       burgerConstructorSlice.actions.removeIngredient(testIngredient.id)
@@ -72,7 +67,7 @@ describe('burgerConstructorSlice', () => {
       _id: '3',
       id: 'constructor-2'
     };
-    
+
     let state = burgerConstructorSlice.reducer(
       initialState,
       burgerConstructorSlice.actions.addIngredient(testIngredient)
@@ -81,12 +76,15 @@ describe('burgerConstructorSlice', () => {
       state,
       burgerConstructorSlice.actions.addIngredient(secondIngredient)
     );
-    
+
     const actual = burgerConstructorSlice.reducer(
       state,
-      burgerConstructorSlice.actions.moveIngredient({ fromIndex: 0, toIndex: 1 })
+      burgerConstructorSlice.actions.moveIngredient({
+        fromIndex: 0,
+        toIndex: 1
+      })
     );
-    
+
     expect(actual.ingredients[0].id).toBe('constructor-2');
     expect(actual.ingredients[1].id).toBe('constructor-1');
   });

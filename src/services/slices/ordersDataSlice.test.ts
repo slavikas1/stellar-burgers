@@ -1,13 +1,10 @@
-import ordersDataSlice, { fetchOrdersData } from './ordersDataSlice';
+import ordersDataSlice, {
+  fetchOrdersData,
+  initialState
+} from './ordersDataSlice';
 import { TOrder } from '@utils-types';
 
 describe('ordersDataSlice', () => {
-  const initialState = {
-    orders: [],
-    loading: false,
-    error: null
-  };
-
   const mockOrders: TOrder[] = [
     {
       _id: '1',

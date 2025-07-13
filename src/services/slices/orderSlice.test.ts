@@ -1,13 +1,7 @@
-import orderSlice, { createOrder } from './orderSlice';
+import orderSlice, { createOrder, initialState } from './orderSlice';
 import { TOrder } from '../../utils/types';
 
 describe('orderSlice', () => {
-  const initialState = {
-    order: null,
-    loading: false,
-    error: null
-  };
-
   const mockOrder: TOrder = {
     _id: '1',
     ingredients: ['60d3b41abdacab0026a733c6'],

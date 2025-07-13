@@ -1,13 +1,11 @@
-import orderDetailsSlice, { fetchOrderByNumber, clearOrderDetails } from './orderDetailsSlice';
+import orderDetailsSlice, {
+  fetchOrderByNumber,
+  clearOrderDetails,
+  initialState
+} from './orderDetailsSlice';
 import { TOrder } from '@utils-types';
 
 describe('orderDetailsSlice', () => {
-  const initialState = {
-    order: null,
-    isLoading: false,
-    error: null
-  };
-
   const mockOrder: TOrder = {
     _id: '1',
     ingredients: ['60d3b41abdacab0026a733c6'],
@@ -51,14 +49,11 @@ describe('orderDetailsSlice', () => {
   });
 
   it('clearOrderDetails', () => {
-    const stateWithOrder = orderDetailsSlice(
-      initialState,
-      { type: fetchOrderByNumber.fulfilled.type, payload: mockOrder }
-    );
-    const state = orderDetailsSlice(
-      stateWithOrder,
-      clearOrderDetails()
-    );
+    const stateWithOrder = orderDetailsSlice(initialState, {
+      type: fetchOrderByNumber.fulfilled.type,
+      payload: mockOrder
+    });
+    const state = orderDetailsSlice(stateWithOrder, clearOrderDetails());
     expect(state).toEqual(initialState);
   });
 });

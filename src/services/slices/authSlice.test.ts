@@ -1,14 +1,15 @@
-import authSlice, { setAuthChecked, login, register, fetchUser, updateUser, logout } from './authSlice';
+import authSlice, {
+  setAuthChecked,
+  login,
+  register,
+  fetchUser,
+  updateUser,
+  logout,
+  initialState
+} from './authSlice';
 import { TUser } from '../../utils/types';
 
 describe('authSlice', () => {
-  const initialState = {
-    user: null,
-    isLoading: false,
-    error: null,
-    isAuthChecked: false
-  };
-
   const mockUser: TUser = {
     email: 'test@example.com',
     name: 'Test User'
@@ -151,10 +152,7 @@ describe('authSlice', () => {
         type: updateUser.fulfilled.type,
         payload: { user: updatedUser }
       };
-      const state = authSlice(
-        { ...initialState, user: mockUser },
-        action
-      );
+      const state = authSlice({ ...initialState, user: mockUser }, action);
       expect(state).toEqual({
         ...initialState,
         user: updatedUser,
@@ -189,10 +187,7 @@ describe('authSlice', () => {
 
     it('logout.fulfilled', () => {
       const action = { type: logout.fulfilled.type };
-      const state = authSlice(
-        { ...initialState, user: mockUser },
-        action
-      );
+      const state = authSlice({ ...initialState, user: mockUser }, action);
       expect(state).toEqual({
         ...initialState,
         isLoading: false,
